@@ -1,0 +1,11 @@
+.activeLink {
+  background-color: #e8f0ff; /* Replace with your desired active link color */
+  width: 100%;
+  height: 46px;
+  border-left: 2.9px solid #2161d1;
+}
+
+.activeImage {
+  filter: invert(40%) sepia(80%) saturate(5786%) hue-rotate(213deg)
+    brightness(87%) contrast(85%);
+}
