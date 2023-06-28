@@ -6,7 +6,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 const Header = () => {
   return (
-    <nav className="bg-white h-[70px] border-b border-[#EAEBF0] ml-[280px] pr-8 pl-8 sticky left-0 top-0 right-0">
+    <nav className="bg-white h-[70px] border-b border-[#EAEBF0] ml-[280px] pr-8 pl-8 fixed left-0 top-0 right-0 z-50">
       <div className="flex items-center h-full justify-between">
         <div className="w-[400px] flex h-[40px] items-center gap-4 border border-[#EAEBF0] rounded-md focus-within:border-[#cacbce]">
           <BsSearch className="ml-3 text-grayText" fontSize={18} />

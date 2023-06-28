@@ -1,0 +1,53 @@
+.scrollbarNone::-webkit-scrollbar,
+.scrollNone::-webkit-scrollbar {
+  display: none;
+}
+
+.borderGradient,
+.borderGradient2 {
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+}
+.borderGradient:before,
+.borderGradient:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 6px;
+  left: 0;
+}
+
+.borderGradient:before {
+  background: linear-gradient(to right, #b37d33, white);
+}
+
+.borderGradient:after {
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, #b37d33, white);
+  top: 300px;
+}
+
+.tabBg div:last-child {
+  background: #f5faff !important;
+}
+
+.transcriptContainer {
+  height: 566px;
+  overflow-y: scroll;
+}
+
+.transcriptContainer::-webkit-scrollbar {
+  width: 3px;
+}
+
+.transcriptContainer::-webkit-scrollbar-track {
+  background: white;
+}
+
+.transcriptContainer::-webkit-scrollbar-thumb {
+  border-radius: 0.926691rem;
+  background: #d9d9d9;
+}
