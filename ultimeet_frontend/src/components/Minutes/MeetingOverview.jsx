@@ -108,8 +108,76 @@ const data = [
   {
     label: "Detailed Conversation Summary",
     value: "conversationSummary",
-    desc: `Because it's about motivating the doers. Because I'm here
-      to follow my dreams and inspire other people to follow their dreams, too.`,
+    desc: {
+      debates: [
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+        "Debate regarding the preferred design aesthetic for the application, such as minimalist vs. vibrant, modern vs. classic, or flat vs. skeuomorphic design",
+        "Different opinions emerged about the optimal placement and organization of key elements in the user interface, such as the menu, buttons, and content sections.",
+      ],
+      questions: [
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+        "John asked, “How can we ensure that the user interface is intuitive and easy to navigate for both new and experienced users?”",
+        "Steve asked, “What techniques can we use to streamline the onboarding process and make it easier for new users to get started?”",
+      ],
+      solutions: [
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+        "Bella suggested, “Implement a clear and intuitive navigation menu with logical categorization to facilitate easy exploration of the application.”",
+        "Mike suggested, “Create interactive prototypes to validate design concepts and gather early user feedback before proceeding with full development.”",
+      ],
+    },
   },
 ];
 
@@ -126,7 +194,12 @@ export default function MeetingOverview() {
         <h2 className="text-primary text-lg font-semibold text-inherit">
           Jason’s Meeting Overview
         </h2>
-        <BsChevronDown fontSize={18} className="cursor-pointer text-grayText" />
+        <BsChevronDown
+          fontSize={18}
+          className={`cursor-pointer text-grayText ${
+            meetingShow ? "rotate-180" : "rotate-0"
+          }`}
+        />
       </div>
       {meetingShow && (
         <Tabs value={activeTab} className="mt-5">
@@ -171,6 +244,7 @@ export default function MeetingOverview() {
                           src={item.profilePic}
                           width={28}
                           height={28}
+                          alt={"speaker"}
                           className="rounded-full object-cover"
                         />
                         <p className="text-primary text-base font-medium">
@@ -180,6 +254,82 @@ export default function MeetingOverview() {
                     </div>
                   );
                 })}
+              </div>
+            </TabPanel>
+            <TabPanel value={"conversationSummary"}>
+              <div className={`${styles.transcriptContainer}`}>
+                <div
+                  style={{
+                    fontFamily: "Inter",
+                  }}
+                >
+                  <p className="text-primary text-base py-2 font-medium">
+                    Debate
+                  </p>
+                  <div className="flex items-center gap-3 py-1 pb-3">
+                    <ul>
+                      {data[1].desc.debates.map((points, index) => {
+                        return (
+                          <ol
+                            key={index}
+                            className="text-grayText text-base py-1 flex "
+                          >
+                            <p className="mr-2">{index + 1}</p>
+                            {points} .
+                          </ol>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Inter",
+                  }}
+                >
+                  <p className="text-primary text-base py-2 font-medium">
+                    Questions
+                  </p>
+                  <div className="flex items-center gap-3 py-1 pb-3">
+                    <ul>
+                      {data[1].desc.questions.map((points, index) => {
+                        return (
+                          <ol
+                            key={index}
+                            className="text-grayText text-base py-1 flex "
+                          >
+                            <p className="mr-2">{index + 1}</p>
+                            {points} .
+                          </ol>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Inter",
+                  }}
+                >
+                  <p className="text-primary text-base py-2 font-medium">
+                    Solutions
+                  </p>
+                  <div className="flex items-center gap-3 py-1 pb-3">
+                    <ul>
+                      {data[1].desc.solutions.map((points, index) => {
+                        return (
+                          <ol
+                            key={index}
+                            className="text-grayText text-base py-1 flex "
+                          >
+                            <p className="mr-2">{index + 1}</p>
+                            {points} .
+                          </ol>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </TabPanel>
           </TabsBody>

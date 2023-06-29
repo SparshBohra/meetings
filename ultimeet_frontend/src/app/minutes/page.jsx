@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import styles from "./minutes.module.css";
 
@@ -12,6 +13,7 @@ import Image from "next/image";
 import UserProfileComp from "@/components/Minutes/UserProfileComp";
 import { BsChevronDown, BsSearch } from "react-icons/bs";
 import MeetingOverview from "@/components/Minutes/MeetingOverview";
+import ActionItemTable from "@/components/Minutes/ActionItemTable";
 
 const Minutes = () => {
   const [toggleAccordion, setToggleAccordion] = useState(true);
@@ -21,7 +23,7 @@ const Minutes = () => {
       <div className="grid grid-flow-col grid-cols-3 gap-8">
         <div className="col-span-2 ">
           <div
-            className={`rounded-md p-4 border-l-[6px] border-yellow-600 border-r-0 ${styles.borderGradient} ${styles.borderGradient2}`}
+            className={`rounded-md p-4 border-l-[6px] border-[#b37d33] border-r-0 ${styles.borderGradient} ${styles.borderGradient2}`}
           >
             {/* accordion header  */}
             <div
@@ -51,7 +53,9 @@ const Minutes = () => {
                   </div>
                   <BsChevronDown
                     fontSize={18}
-                    className="cursor-pointer text-grayText"
+                    className={`cursor-pointer text-grayText ${
+                      toggleAccordion ? "rotate-180" : "rotate-0"
+                    }`}
                   />
                 </div>
               </div>
@@ -285,6 +289,9 @@ const Minutes = () => {
 
           {/* meeting overview  */}
           <MeetingOverview />
+
+          {/* action items table  */}
+          <ActionItemTable />
         </div>
         <div className="col-span-1 "></div>
       </div>

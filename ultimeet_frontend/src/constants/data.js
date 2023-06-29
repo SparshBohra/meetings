@@ -1,4 +1,3 @@
-
 export const sidebarLinks = {
   overview: [
     {
@@ -208,5 +207,56 @@ export const userWithTheirTalkTime = [
     name: "Luffy",
     profilePic,
     talkTime: "88%",
+  },
+];
+
+export const ownerList = [
+  {
+    name: "Jessi",
+    profilePic: profilePic,
+  },
+  {
+    name: "Harry",
+    profilePic: profilePic,
+  },
+  {
+    name: "Mark",
+    profilePic: profilePic,
+  },
+];
+export const reporterList = [
+  {
+    name: "Jessi",
+    profilePic: profilePic,
+  },
+  {
+    name: "Harry",
+    profilePic: profilePic,
+  },
+  {
+    name: "Mark",
+    profilePic: profilePic,
+  },
+];
+export const priorityList = [
+  {
+    name: "Urgent",
+  },
+  {
+    name: "Low",
+  },
+  {
+    name: "Medium",
+  },
+];
+export const statusList = [
+  {
+    name: "In Progress",
+  },
+  {
+    name: "To Do",
+  },
+  {
+    name: "Completed",
   },
 ];
