@@ -260,3 +260,60 @@ export const statusList = [
     name: "Completed",
   },
 ];
+
+export const notesAndComments = [
+  {
+    profilePic: profilePic,
+    name: "Leena",
+    comment:
+      "Sure, Sarah. The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity. We can explore other alternatives if needed.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Sarah",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Jane",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Leena",
+    comment:
+      "Sure, Sarah. The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity. We can explore other alternatives if needed.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Sarah",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Jane",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Leena",
+    comment:
+      "Sure, Sarah. The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity. We can explore other alternatives if needed.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Sarah",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+  {
+    profilePic: profilePic,
+    name: "Jane",
+    comment:
+      "The color scheme aims to evoke a sense of vibrancy and modernity while aligning with our brand identity.",
+  },
+];

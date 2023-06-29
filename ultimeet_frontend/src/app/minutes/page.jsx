@@ -5,21 +5,23 @@ import styles from "./minutes.module.css";
 
 import {
   meetingRecoringKeyPoints,
+  notesAndComments,
   profilePic,
   userDetails,
   userWithTheirTalkTime,
 } from "@/constants/data";
 import Image from "next/image";
 import UserProfileComp from "@/components/Minutes/UserProfileComp";
-import { BsChevronDown, BsSearch } from "react-icons/bs";
+import { BsChevronDown, BsInfoCircle, BsSearch } from "react-icons/bs";
 import MeetingOverview from "@/components/Minutes/MeetingOverview";
 import ActionItemTable from "@/components/Minutes/ActionItemTable";
+import ColorChangingProgressBar from "@/components/Minutes/ColorChangingProgressbar";
 
 const Minutes = () => {
   const [toggleAccordion, setToggleAccordion] = useState(true);
 
   return (
-    <section className="ml-[280px] p-12 bg-bgColor mt-[70px]">
+    <section className="ml-[280px] p-12 bg-bgColor  mt-[70px]">
       <div className="grid grid-flow-col grid-cols-3 gap-8">
         <div className="col-span-2 ">
           <div
@@ -293,7 +295,194 @@ const Minutes = () => {
           {/* action items table  */}
           <ActionItemTable />
         </div>
-        <div className="col-span-1 "></div>
+        <div
+          className="col-span-1"
+          style={{
+            fontFamily: "Inter",
+          }}
+        >
+          {/* scheduled meetings  */}
+          <div className="p-8 rounded-md shadow">
+            <h1 className="text-primary text-xl pb-2 font-semibold">
+              Next scheduled meeting
+            </h1>
+            <div className="p-3 rounded-sm bg-[#EAEBF080] flex items-center gap-3 cursor-pointer">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white">
+                <Image
+                  src="/g_meet.png"
+                  width={26}
+                  height={26}
+                  className="object-cover"
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: "Inter",
+                }}
+              >
+                <p className="text-grayText text-base">
+                  Mar 27, 12:00 pm - 1:00 pm
+                </p>
+                <p className="text-primary text-base">Join with google meet</p>
+              </div>
+            </div>
+            <div className="flex items-end justify-between mt-4">
+              <div>
+                <p className="text-grayText pb-2 text-base font-medium">
+                  Participants
+                </p>
+                <div className="flex items-center">
+                  {userDetails.attend.slice(0, 4).map((user, index) => {
+                    return (
+                      <UserProfileComp key={index} user={user} index={index} />
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="attachment"
+                  className="text-[#2161D1] text-base cursor-pointer"
+                >
+                  + Add attachment
+                </label>
+                <input type="file" id="attachment" className="hidden" />
+              </div>
+            </div>
+          </div>
+
+          {/* notes and comments  */}
+          <div className="p-8 rounded-md shadow mt-8 ">
+            <h1 className="text-primary text-xl font-semibold">
+              Notes and Comments
+            </h1>
+            <p className="text-grayText text-base">
+              {notesAndComments.length} Comments
+            </p>
+            <div className={`h-96 overflow-scroll my-4 ${styles.scrollStyle}`}>
+              {notesAndComments.map((comment, index) => {
+                return (
+                  <div
+                    className="py-4 border-b border-slate-300 last:border-none pr-2"
+                    key={index}
+                    style={{
+                      fontFamily: "Inter",
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={comment.profilePic}
+                        alt={comment.name}
+                        width={28}
+                        height={28}
+                        className="rounded-full object-cover"
+                      />
+                      <p className="text-primary text-base font-medium">
+                        {comment.name}
+                      </p>
+                    </div>
+                    <p className="mt-2 text-grayText text-base font-medium">
+                      {comment.comment}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* meeting health  */}
+
+          <div className="p-8 rounded-md shadow mt-8 ">
+            <h1 className="text-primary text-xl font-semibold flex items-center">
+              Overall Meeting Health{" "}
+              <BsInfoCircle
+                fontSize={20}
+                className="text-primary ml-3 cursor-pointer"
+              />
+            </h1>
+
+            <div className="mt-4">
+              <div className="flex items-center gap-4">
+                <h1 className="text-primary font-bold text-[28px]">Fair</h1>
+                <div></div>
+              </div>
+              <p className="text-grayText text-base font-medium pt-1">
+                Last updated on 22 Jun
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <h1 className="text-primary text-lg font-medium flex items-center">
+                Success Rate
+                <BsInfoCircle
+                  fontSize={16}
+                  className="text-primary ml-3 cursor-pointer"
+                />
+              </h1>
+              <div className="mt-4">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <h1 className="text-primary font-medium text-lg">75%</h1>
+                    <p className="text-grayText text-base font-medium pt-1">
+                      Last updated on 22 Jun
+                    </p>
+                  </div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <h1 className="text-primary text-lg font-medium flex items-center">
+                Engagement
+                <BsInfoCircle
+                  fontSize={16}
+                  className="text-primary ml-3 cursor-pointer"
+                />
+              </h1>
+              <div className="mt-4">
+                <div className="flex items-center gap-6">
+                  <div>
+                    <h1 className="text-primary font-medium text-lg">87%</h1>
+                    <p className="text-grayText text-base font-medium pt-1">
+                      Last updated on 22 Jun
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <ColorChangingProgressBar
+                      percentage={80}
+                      color={"#B91d1d"}
+                    />
+                    <ColorChangingProgressBar
+                      percentage={50}
+                      color={"#0066ff"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <h1 className="text-primary text-lg font-medium flex items-center">
+                Meeting Efficiency
+                <BsInfoCircle
+                  fontSize={16}
+                  className="text-primary ml-3 cursor-pointer"
+                />
+              </h1>
+              <div className="mt-4">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <h1 className="text-primary font-medium text-lg">75%</h1>
+                    <p className="text-grayText text-base font-medium pt-1">
+                      Last updated on 22 Jun
+                    </p>
+                  </div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
