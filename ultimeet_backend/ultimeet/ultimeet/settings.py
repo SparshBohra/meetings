@@ -25,9 +25,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lvtddy#wn35t@5o-&k=3eug3@%*-z^s5-2ykf_s65*##v@ot29'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # ... other allowed hosts ...
+    '127.0.0.1',
+]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # List of template directories
+            '/templates/',
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # Other options...
+        },
+    },
+]
 
 
 # Application definition
@@ -53,9 +70,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000',
+]
+
+
 ROOT_URLCONF = 'ultimeet.urls'
+
+
+
 
 TEMPLATES = [
     {
@@ -82,10 +110,10 @@ WSGI_APPLICATION = 'ultimeet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ultimeet',
-        'USER': 'postgres',
-        'PASSWORD': 'idek',
-        'HOST': '127.0.0.1',  # 'localhost' if your database is on the same machine
+        'NAME': 'ultimeetuat',
+        'USER': 'ultimeet',
+        'PASSWORD': 'test@123',
+        'HOST': 'ultimeetdb.postgres.database.azure.com',  # 'localhost' if your database is on the same machine
         'PORT': '5432',  # default PostgreSQL port
     }
 }
@@ -156,3 +184,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
