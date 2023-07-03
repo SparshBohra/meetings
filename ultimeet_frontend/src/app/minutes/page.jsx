@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./minutes.module.css";
 
 import {
@@ -16,13 +16,32 @@ import { BsChevronDown, BsInfoCircle, BsSearch } from "react-icons/bs";
 import MeetingOverview from "@/components/Minutes/MeetingOverview";
 import ActionItemTable from "@/components/Minutes/ActionItemTable";
 import ColorChangingProgressBar from "@/components/Minutes/ColorChangingProgressbar";
-
+import { axiosInstance } from '@/api/Axios'
+import moment from 'moment';
 const Minutes = () => {
   const [toggleAccordion, setToggleAccordion] = useState(true);
+  const [meetingOverview, setMeetingOverview] = useState({})
+  useEffect(() => {
+    axiosInstance().get('recording_transcription/get_meeting/1/').then((res) => {
+      setMeetingOverview(res.data)
 
+    }).catch((e) => new Error(e))
+  }, [])
+  const {
+    meeting_title, meeting_from,
+    meeting_to, meeting_organizer,
+    meeting_type,
+    meeting_channel,
+    meeting_nature,
+    participants_list,
+    action_item_approved_by_list,
+    absents_list,
+    meeting_description,
+    meeting_location,
+    meeting_action_items_count } = meetingOverview
   return (
-    <section className="ml-[280px] p-12 bg-bgColor  mt-[70px]">
-      <div className="grid grid-flow-col grid-cols-3 gap-8">
+    <section className="ml-[280px] p-12 bg-bgColor  mt-[70px]" style={{ paddingRight: '20px' }}>
+      <div className="grid grid-flow-col grid-cols-3">
         <div className="col-span-2 ">
           <div
             className={`rounded-md p-4 border-l-[6px] border-[#b37d33] border-r-0 ${styles.borderGradient} ${styles.borderGradient2}`}
@@ -36,7 +55,7 @@ const Minutes = () => {
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-4">
                     <h2 className="text-primary text-[20px] font-semibold">
-                      Product Design Internal Meet
+                      {meeting_title}
                     </h2>
                     <p className="px-4 bg-[#FFF8E2] py-1 rounded-md w-max flex items-center gap-1">
                       <Image
@@ -45,19 +64,18 @@ const Minutes = () => {
                         height={18}
                         alt="board"
                       />
-                      <span className="inline-block text-[#DFA800]">Board</span>
+                      <span className="inline-block text-[#DFA800]">{meeting_nature}</span>
                     </p>
                     <p className="px-4 bg-[#E8F0FF] py-1 rounded-md w-max">
                       <span className="inline-block text-darkBlue">
-                        Recurring
+                        {meeting_type}
                       </span>
                     </p>
                   </div>
                   <BsChevronDown
                     fontSize={18}
-                    className={`cursor-pointer text-grayText ${
-                      toggleAccordion ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`cursor-pointer text-grayText ${toggleAccordion ? "rotate-180" : "rotate-0"
+                      }`}
                   />
                 </div>
               </div>
@@ -73,10 +91,7 @@ const Minutes = () => {
             {toggleAccordion && (
               <div className="bg-[#F5F7F9] p-3 rounded-md">
                 <p className="text-grayText mt-4">
-                  This internal meeting reviews the product design progress,
-                  gathers feedback, and aligns it with project goals. It's a
-                  collaborative session to shape the visual direction and
-                  enhance the user experience.
+                  {meeting_description}
                 </p>
 
                 <div className="mt-4 flex items-center gap-5">
@@ -89,7 +104,7 @@ const Minutes = () => {
                       alt="calendar"
                     />
                     <span className="text-primary text-base font-medium">
-                      19 June 2023
+                      {`${moment(new Date(meeting_from).getTime()).format('DD MMMM  YYYY')}`}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -101,7 +116,7 @@ const Minutes = () => {
                       alt="time"
                     />
                     <span className="text-primary text-base font-medium">
-                      8:30 PM
+                      {`${moment(new Date(meeting_from).getTime()).format('hh:mm a')}`}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -113,7 +128,7 @@ const Minutes = () => {
                       alt="location"
                     />
                     <span className="text-primary text-base font-medium">
-                      Remote
+                      {meeting_location}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -125,7 +140,7 @@ const Minutes = () => {
                       alt="check"
                     />
                     <span className="text-primary text-base font-medium">
-                      4 action items
+                      {meeting_action_items_count}
                     </span>
                   </div>
                 </div>
@@ -133,7 +148,7 @@ const Minutes = () => {
                 <div className="flex items-center justify-between gap-20 mt-5">
                   <div className="flex items-center gap-20">
                     <div className="flex flex-col gap-3">
-                      <p className="text-grayText text-base font-medium">
+                      <p style={{ fontSize: '12px' }} className="text-grayText text-base font-medium">
                         Organizer
                       </p>
                       <div className="flex gap-2 items-center">
@@ -142,72 +157,88 @@ const Minutes = () => {
                           alt="user"
                           width={30}
                           height={30}
-                          className="object-cover rounded-full"
+                          className={`object-cover rounded-full z-0 border-2 border-white`}
+                          style={{ marginLeft: `-${0 * 35}%` }}
                         />
                         <p className="text-primary text-base font-medium">
-                          Jane Miller
+                          {meeting_organizer?.username}
                         </p>
                       </div>
                     </div>
                     <div className="flex flex-col gap-3">
-                      <p className="text-grayText text-base font-medium">
+                      <p style={{ fontSize: '12px' }} className="text-grayText text-base font-medium">
                         Participants
                       </p>
                       <div className="flex items-center">
-                        {userDetails.attend.slice(0, 4).map((user, index) => {
+                        {participants_list?.slice(0, 4).map((user, index) => {
                           return (
                             <UserProfileComp
                               key={index}
-                              user={user}
+                              profilePhoto={user[0]?.profile_picture}
+                              name={user[0]?.name}
                               index={index}
                             />
                           );
                         })}
-                        <p
-                          className="w-[30px] h-[30px] bg-[#E8F0FF] text-darkBlue text-xs object-cover rounded-full z-10 border-2 border-white flex items-center justify-center"
-                          style={{ marginLeft: "-46px" }}
-                        >
-                          +{userDetails.attend.length - 4}
-                        </p>
+                        {participants_list?.length > 4 ?
+                          <p
+                            className="w-[30px] h-[30px] bg-[#E8F0FF] text-darkBlue text-xs object-cover rounded-full z-10 border-2 border-white flex items-center justify-center"
+                            style={{ marginLeft: "-46px" }}
+                          >
+                            +{participants_list?.length - 4}
+                          </p> : <></>
+                        }
                       </div>
                     </div>
                     <div className="flex flex-col gap-3">
-                      <p className="text-grayText text-base font-medium">
+                      <p style={{ fontSize: '12px' }} className="text-grayText text-base font-medium">
                         Absent
                       </p>
                       <div className="flex items-center">
-                        {userDetails.absent.map((user, index) => {
+                        {absents_list?.slice(0, 4).map((user, index) => {
                           return (
                             <UserProfileComp
                               key={index}
-                              user={user}
+                              profilePhoto={user[0]?.profile_picture}
+                              name={user[0]?.name}
                               index={index}
                             />
                           );
                         })}
+                        {absents_list?.length > 4 ?
+                          <p
+                            className="w-[30px] h-[30px] bg-[#E8F0FF] text-darkBlue text-xs object-cover rounded-full z-10 border-2 border-white flex items-center justify-center"
+                            style={{ marginLeft: "-46px" }}
+                          >
+                            +{absents_list?.length - 4}
+                          </p> : <></>
+                        }
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <p className="text-grayText text-base font-medium">
-                      Organizer
+                    <p style={{ fontSize: '12px' }} className="text-grayText text-base font-small">
+                      Action item approved by
                     </p>
                     <div className="flex items-center">
-                      {userDetails.approvedBy.slice(0, 4).map((user, index) => {
+                      {action_item_approved_by_list?.slice(0, 4).map((user, index) => {
                         return (
                           <UserProfileComp
                             key={index}
-                            user={user}
+                            profilePhoto={user[0]?.profile_picture}
+                            name={user[0]?.name}
                             index={index}
                           />
                         );
                       })}
-                      <p
-                        className="w-[30px] h-[30px] bg-[#E8F0FF] text-darkBlue text-xs object-cover rounded-full z-10 border-2 border-white flex items-center justify-center"
-                        style={{ marginLeft: "-46px" }}
-                      >
-                        +{userDetails.attend.length - 4}
-                      </p>
+                      {action_item_approved_by_list?.length > 4 ?
+                        <p
+                          className="w-[30px] h-[30px] bg-[#E8F0FF] text-darkBlue text-xs object-cover rounded-full z-10 border-2 border-white flex items-center justify-center"
+                          style={{ marginLeft: "-46px" }}
+                        >
+                          +{action_item_approved_by_list?.length - 4}
+                        </p> : <></>
+                      }
                     </div>
                   </div>
                 </div>
@@ -299,6 +330,7 @@ const Minutes = () => {
           className="col-span-1"
           style={{
             fontFamily: "Inter",
+            padding: '16px'
           }}
         >
           {/* scheduled meetings  */}
