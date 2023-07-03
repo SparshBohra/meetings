@@ -9,7 +9,7 @@ headers = {
     "authorization": "3791eb83c72547c88214e5f95449a4c2"
 }
 
-with open("/Users/sudarshanchavan/Downloads/meetings-master-2/ultimeet_backend/ultimeet/recording_transcription/Panel_Discussion_AI.mp3", "rb") as f:
+with open("/Users/sparshbohra/ultimeet/ultimeet_backend/ultimeet/recording_transcription/Panel_Discussion_AI.mp3", "rb") as f:
   response = requests.post(base_url + "/upload",
                           headers=headers,
                           data=f)
