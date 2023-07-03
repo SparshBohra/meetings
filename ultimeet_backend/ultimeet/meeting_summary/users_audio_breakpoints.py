@@ -27,7 +27,25 @@ max_prompt_tokens = max_tokens - buffer_tokens
 
 #process_transcription = ""
 def get_users_audio_breakpoints():
-    return {
+    return { 
+        'meeting_id': '5',
+        'meeting_keypoints': [
+            {
+            "label": "UI/UX"
+            },
+            {
+            "label": "API"
+            },
+            {
+            "label": "Sells"
+            },
+            {
+            "label": "Comprehensive"
+            },
+            {
+            "label": "Streamlined"
+            }
+        ],
         'users_audio_breakpoints': [
             {
                 "name": "Nick",
@@ -103,3 +121,5 @@ def get_users_audio_breakpoints():
             }
         ]
     }
+    
+    
