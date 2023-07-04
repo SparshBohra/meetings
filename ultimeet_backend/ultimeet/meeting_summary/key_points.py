@@ -33,7 +33,7 @@ def get_key_points(meeting_id):
     prompt = final_transcript#trancript_object.transcript_raw
     prompt_chunks = textwrap.wrap(prompt, max_prompt_tokens)
 
-    openai.api_key = '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'
+    openai.api_key = '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'
     response = None
     for chunk in prompt_chunks:
         response = openai.Completion.create(

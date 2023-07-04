@@ -5,9 +5,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from user_authentication.models import User, Session
-from recording_transcription.models import Meeting
+from recording_transcription.models import Meeting, Participant
 from .key_points import get_key_points
-from .users_audio_breakpoints import users_audio_breakpoints
+from .users_audio_breakpoints import audio_breakpoints, meeting_key_labels
 from .agenda import meeting_agenda
 from .summary_view import summary_text
 
@@ -47,12 +47,24 @@ def key_points(request, meeting_id):
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
+
 @csrf_exempt
 def users_audio_breakpoints(request, meeting_id):
     if request.method == 'GET':
         try:
-            labels = get_audio_labels(meeting_id)  
-            return JsonResponse({'Audio-Labels': labels})
+            # Assuming that you have a function to fetch meeting labels
+            meeting_labels = meeting_key_labels(meeting_id)
+            
+            # get the user's audio breakpoints
+            audio_breakpoints_data = audio_breakpoints(meeting_id)
+                
+            response_data = {
+                'meeting_id': meeting_id,
+                'meeting_key_labels': [meeting_labels],
+                'users_audio_breakpoints': audio_breakpoints_data['users_audio_breakpoints']
+            }
+
+            return JsonResponse(response_data)
 
         except Meeting.DoesNotExist:
             return JsonResponse({'error': 'Meeting not found.'}, status=404)

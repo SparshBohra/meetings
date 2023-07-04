@@ -4,6 +4,8 @@ import time
 # use the Python textwrap library to split the text into chunks of `max_prompt_tokens` length
 import textwrap
 import openai
+import json
+from collections import defaultdict
 
 # django imports
 from django.http import HttpResponse
@@ -25,101 +27,77 @@ buffer_tokens = 100
 # calculate the maximum tokens we can use for the prompt
 max_prompt_tokens = max_tokens - buffer_tokens
 
-#process_transcription = ""
-def get_users_audio_breakpoints():
-    return { 
-        'meeting_id': '5',
-        'meeting_keypoints': [
+import re
+from collections import defaultdict
+
+def calculate_speaking_time(transcript):
+    # Regex pattern to match the speaker and timestamps
+    # this pattern will extract each speaker's name and their start and end times
+    speakers = defaultdict(lambda: {"audio_breakpoints": {"start": [], "end": []}, "talk_time": 0})
+
+    # extract data from the transcript and populate the `speakers` dict
+    for item in transcript:
+        name, start, end = item["speaker"], item["start_time"], item["end_time"]
+        speakers[name]["audio_breakpoints"]["start"].append(start)
+        speakers[name]["audio_breakpoints"]["end"].append(end)
+        speakers[name]["talk_time"] += end - start  # assuming times are in the same unit (e.g., seconds)
+
+    # calculate total talk time to later compute percentages
+    total_talk_time = sum(speaker["talk_time"] for speaker in speakers.values())
+
+    # create the final output
+    output = {
+        "users_audio_breakpoints": [
             {
-            "label": "UI/UX"
-            },
-            {
-            "label": "API"
-            },
-            {
-            "label": "Sells"
-            },
-            {
-            "label": "Comprehensive"
-            },
-            {
-            "label": "Streamlined"
+                "name": name,
+                "avatar": "https://photos.com",
+                "username": name.lower().replace(" ", ""),
+                "audio_breakpoints": data["audio_breakpoints"],
+                "talk_time": round(data["talk_time"] / total_talk_time * 100, 2),  # percentage of total talk time
             }
-        ],
-        'users_audio_breakpoints': [
-            {
-                "name": "Nick",
-                "avatar": "https://photos.com",
-                "username": "nnick231",
-                "audio_breakpoints": {
-                    'start': [
-                        23400,
-                        23800,
-                        45000
-                    ],
-                    'end': [
-                        23400,
-                        23800,
-                        45000
-                    ]
-                },
-                "talk_time": 11
-            },
-            {
-                "name": "Sam",
-                "avatar": "https://photos.com",
-                "username": "sam12341",
-                "audio_breakpoints": {
-                    'start': [
-                        23400,
-                        23800,
-                        45000
-                    ],
-                    'end': [
-                        23400,
-                        23800,
-                        45000
-                    ]
-                },
-                "talk_time": 38
-            },
-            {
-                "name": "Seema",
-                "avatar": "https://photos.com",
-                "username": "seema2314",
-                "audio_breakpoints": {
-                    'start': [
-                        23400,
-                        23800,
-                        45000
-                    ],
-                    'end': [
-                        23400,
-                        23800,
-                        45000
-                    ]
-                },
-                "talk_time": 47
-            },
-            {
-                "name": "Mukesh",
-                "avatar": "https://photos.com",
-                "username": "mukesh413",
-                "audio_breakpoints": {
-                    'start': [
-                        23400,
-                        23800,
-                        45000
-                    ],
-                    'end': [
-                        23400,
-                        23800,
-                        45000
-                    ]
-                },
-                "talk_time": 4
-            }
+            for name, data in speakers.items()
         ]
     }
+
+    return output
+
+def key_labels(transcript):
+    final_transcript = transcript
+    #trancript_object = transcript.objects.get()
+    prompt = final_transcript#trancript_object.transcript_raw
+    prompt_chunks = textwrap.wrap(prompt, max_prompt_tokens)
+
+    openai.api_key = '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'
+    response = None
+    for chunk in prompt_chunks:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=chunk + "\nGenerate 10 labels or tags that describe the transcript suitable to the meeting comma seperated.",
+            temperature=0.2,
+            #max_tokens=150,
+            max_tokens=buffer_tokens
+        )
+
+    if response: 
+        output = response.choices[0].text.strip()
+        return output
+    else:
+        return "None"
+    
+
+def audio_breakpoints(meeting_id):
+    final_transcript = get_transcript_raw(meeting_id)
+    transcript_data = json.loads(final_transcript)
+    return calculate_speaking_time(transcript_data)
+
+def meeting_key_labels(meeting_id):
+    final_transcript = get_transcript_raw(meeting_id)
+    meeting_labels = key_labels(final_transcript)
+
+    # split the labels by comma and remove any leading/trailing spaces
+    return [label.strip() for label in meeting_labels.split(',')]
+    
+    
+    
     
     

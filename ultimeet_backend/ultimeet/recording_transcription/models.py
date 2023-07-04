@@ -25,7 +25,7 @@ class Meeting(models.Model):
         db_table = 'meetings'
 
 class Participant(models.Model):
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    meeting_id = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     profile_picture = models.URLField()
@@ -34,7 +34,7 @@ class Participant(models.Model):
         db_table = 'Participant'
 
 class Absents(models.Model):
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    meeting_id = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     profile_picture = models.URLField()
@@ -43,7 +43,7 @@ class Absents(models.Model):
         db_table = 'Absents'
 
 class Action_Item_Approved_By(models.Model):
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    meeting_id = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     profile_picture = models.URLField()
@@ -54,7 +54,7 @@ class Action_Item_Approved_By(models.Model):
 class Transcript(models.Model):
     #meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     transcript_id = models.AutoField(primary_key=True)
-    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    meeting_id = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     raw_transcript = models.TextField()
 
     class Meta:
