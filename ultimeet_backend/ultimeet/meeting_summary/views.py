@@ -60,6 +60,7 @@ def users_audio_breakpoints(request, meeting_id):
                 
             response_data = {
                 'meeting_id': meeting_id,
+                'mediaURL' : '/Users/sparshbohra/ultimeet/ultimeet_backend/ultimeet/recording_transcription/Panel_Discussion_AI.mp3'
                 'meeting_key_labels': [meeting_labels],
                 'users_audio_breakpoints': audio_breakpoints_data['users_audio_breakpoints']
             }
