@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'recording_transcription',
     'meeting_summary',
     'meeting_action_tasks',
+    'analytics'
 ]
 
 MIDDLEWARE = [

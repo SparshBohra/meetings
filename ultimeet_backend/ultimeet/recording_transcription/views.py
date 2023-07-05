@@ -252,44 +252,44 @@ def create_meeting(request):
         return JsonResponse({'message': 'Meeting created successfully.'}, status=201)
 
 
-@csrf_exempt
-def create_transcript(request, meeting_id):
-    if request.method == 'POST':
-        # Retrieve the JSON data from the request body
-        data = json.loads(request.body)
+# @csrf_exempt
+# def create_transcript(request, meeting_id):
+#     if request.method == 'POST':
+#         # Retrieve the JSON data from the request body
+#         data = json.loads(request.body)
 
-        # Retrieve the data from the JSON object
-        raw_transcript = data.get('raw_transcript')
+#         # Retrieve the data from the JSON object
+#         raw_transcript = data.get('raw_transcript')
 
-        try:
-            # Retrieve the meeting based on the provided meeting_id
-            meeting = Meeting.objects.get(pk=meeting_id)
-            final_transcript = process_transcription()
-            print(final_transcript)
-            # Create a new Transcript object with the retrieved data
-            transcript = Transcripts(
-                meeting=meeting,
-                raw_transcript=final_transcript
-            )
+#         try:
+#             # Retrieve the meeting based on the provided meeting_id
+#             meeting = Meeting.objects.get(pk=meeting_id)
+#             final_transcript = process_transcription()
+#             print(final_transcript)
+#             # Create a new Transcript object with the retrieved data
+#             transcript = Transcripts(
+#                 meeting=meeting,
+#                 raw_transcript=final_transcript
+#             )
 
-            # Save the transcript object
-            transcript.save()
+#             # Save the transcript object
+#             transcript.save()
 
-            # Return a JSON response indicating success
-            return JsonResponse({'message': 'Transcript created successfully.'}, status=201)
-        except Meeting.DoesNotExist:
-            return JsonResponse({'error': 'Meeting not found.'}, status=404)
+#             # Return a JSON response indicating success
+#             return JsonResponse({'message': 'Transcript created successfully.'}, status=201)
+#         except Meeting.DoesNotExist:
+#             return JsonResponse({'error': 'Meeting not found.'}, status=404)
 
 
-@csrf_exempt
-def transcription_view(request,meeting_id):
-    if request.method == 'POST':
-        final_transcript = process_transcription()
-        final_transcript = json.loads(final_transcript)
-        return JsonResponse(final_transcript, safe=False)
+# @csrf_exempt
+# def transcription_view(request,meeting_id):
+#     if request.method == 'POST':
+#         final_transcript = process_transcription()
+#         final_transcript = json.loads(final_transcript)
+#         return JsonResponse(final_transcript, safe=False)
 
-    else:
-        return JsonResponse({'error': 'Invalid request method.'}, status=405)
+#     else:
+#         return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
 
 
