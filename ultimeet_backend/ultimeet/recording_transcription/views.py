@@ -4,18 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 from datetime import datetime
-from .transcript import process_transcription
-from django.core.exceptions import ObjectDoesNotExist
+# from .transcript import process_transcription
+
+
+
 from .models import Meeting, Participant, Absents, Action_Item_Approved_By,Transcript
-import sounddevice as sd
-import wave
-import datetime
-import speech_recognition as sr
-from django.http import HttpResponse
-import numpy as np
-import threading
-import requests
-import pyaudio
 
 @csrf_exempt
 def get_meeting(request, meeting_id):
@@ -259,231 +252,44 @@ def create_meeting(request):
         return JsonResponse({'message': 'Meeting created successfully.'}, status=201)
 
 
+# @csrf_exempt
+# def create_transcript(request, meeting_id):
+#     if request.method == 'POST':
+#         # Retrieve the JSON data from the request body
+#         data = json.loads(request.body)
+
+#         # Retrieve the data from the JSON object
+#         raw_transcript = data.get('raw_transcript')
+
+#         try:
+#             # Retrieve the meeting based on the provided meeting_id
+#             meeting = Meeting.objects.get(pk=meeting_id)
+#             final_transcript = process_transcription()
+#             print(final_transcript)
+#             # Create a new Transcript object with the retrieved data
+#             transcript = Transcripts(
+#                 meeting=meeting,
+#                 raw_transcript=final_transcript
+#             )
+
+#             # Save the transcript object
+#             transcript.save()
+
+#             # Return a JSON response indicating success
+#             return JsonResponse({'message': 'Transcript created successfully.'}, status=201)
+#         except Meeting.DoesNotExist:
+#             return JsonResponse({'error': 'Meeting not found.'}, status=404)
 
 
+# @csrf_exempt
+# def transcription_view(request,meeting_id):
+#     if request.method == 'POST':
+#         final_transcript = process_transcription()
+#         final_transcript = json.loads(final_transcript)
+#         return JsonResponse(final_transcript, safe=False)
 
-@csrf_exempt
-def create_transcript(request, meeting_id):
-    if request.method == 'POST':
-        # Retrieve the JSON data from the request body
-        data = json.loads(request.body)
-
-        # Retrieve the data from the JSON object
-        raw_transcript = data.get('raw_transcript')
-
-        try:
-            # Retrieve the meeting based on the provided meeting_id
-            meeting = Meeting.objects.get(pk=meeting_id)
-            final_transcript = process_transcription()
-            print(final_transcript)
-            # Create a new Transcript object with the retrieved data
-            transcript = Transcripts(
-                meeting=meeting,
-                raw_transcript=final_transcript
-            )
-
-            # Save the transcript object
-            transcript.save()
-
-            # Return a JSON response indicating success
-            return JsonResponse({'message': 'Transcript created successfully.'}, status=201)
-        except Meeting.DoesNotExist:
-            return JsonResponse({'error': 'Meeting not found.'}, status=404)
-
-
-@csrf_exempt
-def transcription_view(request,meeting_id):
-    if request.method == 'POST':
-        final_transcript = process_transcription()
-        final_transcript = json.loads(final_transcript)
-        return JsonResponse(final_transcript, safe=False)
-
-    else:
-        return JsonResponse({'error': 'Invalid request method.'}, status=405)
-
-@csrf_exempt
-def get_transcription(request, meeting_id):
-    if request.method == 'GET':
-        try:
-            transcript = Transcript.objects.get(meeting_id=meeting_id)
-            raw_transcript = json.loads(transcript.raw_transcript)
-            return JsonResponse(raw_transcript, safe=False)
-        except Transcript.DoesNotExist:
-            return JsonResponse({'error': 'Meeting does not exist.'}, status=404)
-    else:
-        return JsonResponse({'error': 'Invalid request method.'}, status=405)
-
-stop_recording_flag = False
-recording_thread = None
-server_url = "http://127.0.0.1:8000"  # Replace with your server URL
-
-
-@csrf_exempt
-def start_recording():
-    if request.method == 'POST':
-       # Set the audio parameters
-        sample_rate = 44100  # Sample rate in Hz
-        duration = 5  # Duration of the recording in seconds
-
-        # Record audio
-        print("Recording audio...")
-        recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1)
-        sd.wait()  # Wait until the recording is finished
-
-        # Save the recording as a .wav file
-        output_file = "audio_recording.wav"
-        wav.write(output_file, sample_rate, recording)
-
-        return "Audio saved as " + output_file
-
-
-@csrf_exempt
-def stop_recording(request):
-    if request.method == 'GET':
-        # Set the flag to stop recording
-        global stop_recording_flag
-        stop_recording_flag = True
-
-        # Wait for the recording thread to complete
-        global recording_thread
-        recording_thread.join()
-
-        return HttpResponse('Recording stopped.')
-    else:
-        return JsonResponse({'error': 'Invalid request method.'}, status=405)
-
-
-def record_audio(fs, seconds, meeting_name):
-    global stop_recording_flag
-
-    # Start recording audio
-    recording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
-
-    # Wait for the stop recording command or timeout
-    timeout = seconds
-    while timeout > 0 and not stop_recording_flag:
-        timeout -= 1
-
-    # Stop recording
-    sd.stop()
-
-    # Save the recording data as a .wav file
-    file_name = f"meeting_{meeting_name}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
-    save_recording(recording, file_name)
-
-
-def save_recording(recording, filename):
-    # Set up audio parameters
-    fs = 44100  # Sample rate
-
-    # Create a .wav file with the specified filename
-    wave_file = wave.open(filename, 'wb')
-    wave_file.setnchannels(1)
-    wave_file.setsampwidth(2)  # Sample width in bytes (16-bit audio)
-    wave_file.setframerate(fs)
-
-    # Convert the recording data to bytes
-    audio_bytes = recording.astype(np.int16).tobytes()
-
-    # Write the frames to the wave file
-    wave_file.writeframes(audio_bytes)
-    wave_file.close()
-
-
-recording = False  # Flag to keep track of recording state
-output_file = "output.wav"
-
-@csrf_exempt
-def record_audios(request):
-    global recording
-
-    if request.method == 'GET':
-        if recording:
-            return HttpResponse("Already recording...")
-
-        print('API called')
-
-        CHUNK = 1024
-        FORMAT = pyaudio.paInt16
-        CHANNELS = 1
-        RATE = 44100
-        RECORD_SECONDS = 10  # Adjust the duration as per your requirements
-
-        p = pyaudio.PyAudio()
-
-        stream = p.open(
-            format=FORMAT,
-            channels=CHANNELS,
-            rate=RATE,
-            input=True,
-            frames_per_buffer=CHUNK
-        )
-
-        frames = []
-
-        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-            if not recording:
-                break
-            data = stream.read(CHUNK)
-            frames.append(data)
-
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
-
-        if frames:
-            wf = wave.open(output_file, 'wb')
-            wf.setnchannels(CHANNELS)
-            wf.setsampwidth(p.get_sample_size(FORMAT))
-            wf.setframerate(RATE)
-            wf.writeframes(b''.join(frames))
-            wf.close()
-
-        recording = False
-
-        return HttpResponse("Audio recorded successfully.")
-
-def listen_for_commands():
-    global recording
-
-    r = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print("Listening for commands...")
-
-        while True:
-            try:
-                audio = r.listen(source)
-                command = r.recognize_google(audio)
-                print(f"Command: {command}")
-
-                if command.lower() == "start":
-                    if not recording:
-                        recording = True
-                        print("Recording started.")
-                    else:
-                        print("Already recording...")
-
-                elif command.lower() == "stop":
-                    if recording:
-                        recording = False
-                        print("Recording stopped.")
-                    else:
-                        print("Not currently recording.")
-
-            except sr.UnknownValueError:
-                print("Could not understand the audio")
-            except sr.RequestError as e:
-                print(f"Error: {e}")
-
-# Create a thread to handle continuous listening
-listening_thread = threading.Thread(target=listen_for_commands)
-listening_thread.start()
-
-
-
-
-
+#     else:
+#         return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
 
 

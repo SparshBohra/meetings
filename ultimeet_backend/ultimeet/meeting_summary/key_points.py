@@ -33,34 +33,12 @@ def get_key_points(meeting_id):
     prompt = final_transcript#trancript_object.transcript_raw
     prompt_chunks = textwrap.wrap(prompt, max_prompt_tokens)
 
-    openai.api_key = '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'
+    openai.api_key = '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'
     response = None
     for chunk in prompt_chunks:
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=chunk + "\nGive me keypoints discussed in the meeting in a list format",
-            temperature=0.2,
-            #max_tokens=150,
-            max_tokens=buffer_tokens
-        )
-    if response: 
-        output = response.choices[0].text.strip()
-        return output
-    else:
-        return "None"
-
-def get_audio_labels(meeting_id):
-    final_transcript = get_transcript_raw(meeting_id)
-    #trancript_object = transcript.objects.get()
-    prompt = final_transcript#trancript_object.transcript_raw
-    prompt_chunks = textwrap.wrap(prompt, max_prompt_tokens)
-
-    openai.api_key = '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'
-    response = None
-    for chunk in prompt_chunks:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=chunk + "\nGenerate 10 labels or tags that are suitable to this transcript.",
             temperature=0.2,
             #max_tokens=150,
             max_tokens=buffer_tokens

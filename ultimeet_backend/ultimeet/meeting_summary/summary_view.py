@@ -25,13 +25,14 @@ buffer_tokens = 100
 # calculate the maximum tokens we can use for the prompt
 max_prompt_tokens = max_tokens - buffer_tokens
 #process_transcription = ""
+
 def summary_text(meeting_id):
     final_transcript = get_transcript_raw(meeting_id)
     #trancript_object = transcript.objects.get()
     prompt = final_transcript#trancript_object.transcript_raw
     prompt_chunks = textwrap.wrap(prompt, max_prompt_tokens)
 
-    openai.api_key = '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'
+    openai.api_key = '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'
     response = None
     for chunk in prompt_chunks:
         response = openai.Completion.create(
@@ -41,6 +42,7 @@ def summary_text(meeting_id):
             #max_tokens=150,
             max_tokens=buffer_tokens
         )
+
     if response: 
         output = response.choices[0].text.strip()
         return output
