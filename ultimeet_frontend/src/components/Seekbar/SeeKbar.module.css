@@ -15,7 +15,7 @@
   background-repeat: round;
   border-radius: 50%;
   position: absolute;
-  margin-top: -45px;
+  margin-top: -35px;
   margin-right: 15px;
   z-index: 12;
   
@@ -39,4 +39,14 @@
   padding: 1%;
   background: #EBEEF2;
   padding: 0 !important;
+}
+
+.mainThumb{
+  background: red;
+  margin-left: 828.738px;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border: 2px solid #EBEEF2;
+  border-radius: 50%;
 }

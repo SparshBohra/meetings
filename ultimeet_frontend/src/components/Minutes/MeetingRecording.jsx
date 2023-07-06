@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import Seekbar from "../Seekbar/Seekbar";
 import styles from "../../app/minutes/minutes.module.css"
 import { axiosInstance } from '@/api/Axios'
@@ -9,69 +9,180 @@ import {
     profilePic,
     userDetails,
     userWithTheirTalkTime,
-  } from "@/constants/data";
-const MeetingRecoring = () =>{
+} from "@/constants/data";
+const MeetingRecoring = () => {
 
     const [meetingRecording, setMeetingRecording] = useState({})
+    const [play, setPlay] = useState(false);
+    const [playTime, setPlayTime] = useState(0);
+    const [playerTalk, setplayerTalk] = useState([
+        41890,
+        284652,
+        750918,
+        1325192,
+        1513886,
+        1738330,
+        1995618
+        ])
+    const vidRef = useRef(null);
+    const handlePlayVideo = () => {
+      vidRef.current.play();
+      setPlay(!play)
+    }
+    const handlePauseVideo = () => {
+        vidRef.current.pause();
+        setPlay(!play)
+    }
+    const handleForwardVideo = () => {
+        vidRef.current.currentTime +=200;
+    }
+    const handleBackwardVideo = () => {
+        vidRef.current.currentTime +=5;
+    }
+    const userTalkData = (obj) =>{
+         setplayerTalk(obj)
+    }
+
+    const onTimeUpdate = () => {
+        let a = vidRef?.current?.currentTime.toFixed(2) || 0;
+        let b = vidRef?.current?.duration.toFixed(2) || 1;
+        
+        let c = (a/b).toFixed(2)
+        setPlayTime(c) 
+    }
 
     useEffect(() => {
         axiosInstance().get('meeting_summary/meeting/1/users_audio_breakpoints/').then((res) => {
             setMeetingRecording(res.data)
-    
+
         }).catch((e) => new Error(e))
-      }, [])
-    return(
+        return ()=> {}
+    }, [])
+
+    const { meeting_key_labels, users_audio_breakpoints } = meetingRecording;
+    return (
         <div className="p-2">
-        <div className="grid grid-flow-col grid-cols-3 mt-6">
-            <div className="col-span-2 pr-4"   >
-              <video className={styles.videoFrame}>
-                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4"/>
-              </video>
-            </div>
-            <div className="col-span-1">
-              <div className="bg-white border border-[#EAEBF0] rounded-md shadow-sm">
-                <ul className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center">
-                  <li className="pl-4">Name</li>
-                  <li className="pl-4">Talk Time</li>
-                </ul>
-                <div className={`overflow-scroll h-72 ${styles.scrollNone}`}>
-                  {userWithTheirTalkTime.map((user, index) => {
-                    return (
-                      <ul
-                        key={index}
-                        className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center"
-                      >
-                        <li className="text-primary text-base flex items-center gap-2 pl-4">
-                          <Image
-                            src={user.profilePic}
-                            width={28}
-                            height={28}
-                            className="object-cover rounded-full"
-                            alt={user.name}
-                          />
-                          {user.name}
-                        </li>
-                        <li className="text-grayText text-base pl-6">
-                          {user.talkTime}
-                        </li>
-                      </ul>
-                    );
-                  })}
+            <div
+                className={`flex overflow-scroll gap-2 mt-6 ${styles.scrollbarNone}`}
+            >
+                <div className="flex gap-2">
+
+                    {meeting_key_labels && meeting_key_labels[0]?.length > 0 ? meeting_key_labels[0].map((keypoint, index) => {
+                        return (
+                            <button
+                                key={index}
+                                className="border border-[#B2BECC] bg-[#0F305705] px-2 py-1 rounded-md  outline-none text-xs text-grayText w-max whitespace-nowrap"
+                            >
+                                {keypoint}
+                            </button>
+                        );
+                    }) : <></>}
                 </div>
-              </div>
             </div>
-          </div>
-          <div className="bg-white rounded-lg border border-[#EAEBF0] shadow-md pt-2  mt-8">
-            
+            <div className="grid grid-flow-col grid-cols-3 mt-6">
+                <div className="col-span-2 pr-4"   >
+                    <Image
 
-            <div className="bg-white  rounded-md shadow-sm pl-2 pr-2" style={{height:'120px'}}>
-            <Seekbar/>
+                        className={styles.playButton}
+                        src={'./playMedia.svg'}
+                        width={28}
+                        height={28}
+
+                    />
+                    <video
+                        ref={vidRef}
+                        className={styles.videoFrame}
+                        poster="./videoThumbnail.png"
+                        onTimeUpdate={onTimeUpdate}
+                        
+                        >
+
+                        <source src="./Panel_Discussion_AI.mp3" type="video/mp4" />
+                    </video>
+                </div>
+                <div className="col-span-1">
+                    <div className="bg-white border border-[#EAEBF0] rounded-md shadow-sm">
+                        <ul className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center">
+                            <li className="pl-4">Name</li>
+                            <li className="pl-4">Talk Time</li>
+                        </ul>
+                        <div className={`overflow-scroll h-72 ${styles.scrollNone}`}>
+                            {users_audio_breakpoints?.length > 0 ? users_audio_breakpoints.map((user, index) => {
+                                return (
+                                    <ul
+                                        key={index}
+                                        className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center"
+                                    >
+                                        <li  className="text-primary text-base flex items-center gap-2 pl-4 click">
+                                            <Image
+                                                src={user.avatar}
+                                                width={28}
+                                                height={28}
+                                                className="object-cover rounded-full"
+                                                alt={user.name}
+                                            />
+                                            {user.name}
+                                        </li>
+                                        <li className="text-grayText text-base pl-6">
+                                            {`${user.talk_time}%`}
+                                        </li>
+                                    </ul>
+                                );
+                            }) : <></>}
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div className="bg-white rounded-lg border border-[#EAEBF0] shadow-md mt-8" style={{ paddingTop: '15px' }}>
 
-          </div>
+
+                <div className="bg-white  rounded-md shadow-sm pl-2 pr-3" style={{ height: '90px' }}>
+                    <Seekbar data={playerTalk} time={playTime} />
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <div className="..."></div>
+                        <div className="...">
+                            <div class="grid grid-cols-3 gap-4 p-8" style={{ padding: '20%' }}>
+                                <div className={styles.control}>
+                                    <div onClick={handleBackwardVideo}><Image
+                                        src="/backward.svg"
+                                        width={26}
+                                        height={26}
+                                        className="object-cover"
+                                    /></div>
+                                    {
+                                    play ?
+                                        <div onClick={handlePauseVideo}><Image
+                                            src="/star.svg"
+                                            width={26}
+                                            height={26}
+                                            className="object-cover"
+                                        /></div>:
+
+                                        <div onClick={handlePlayVideo}><Image
+                                            src="/play.svg"
+                                            width={26}
+                                            height={26}
+                                            className="object-cover"
+                                        /></div> 
+                                    }                                   
+                                    <div onClick={handleForwardVideo}><Image
+                                        src="/forward.svg"
+                                        width={26}
+                                        height={26}
+                                        className="object-cover"
+                                    /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="..."></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     )
 }
 
 
- export default MeetingRecoring
+export default MeetingRecoring

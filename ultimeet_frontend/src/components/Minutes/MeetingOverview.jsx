@@ -186,12 +186,18 @@ export default function MeetingOverview() {
   const [activeTab, setActiveTab] = useState("transcript");
   const [meetingShow, setMeetingShow] = useState(true);
   const [transcript, setTranscript] = useState({})
-
+  const [summary, setSummary] = useState({})
   useEffect(()=>{
 
     axiosInstance().get("recording_transcription/transcription_view/3/").then((res)=>{
       setTranscript(res?.data?.transcript)
-     /// console.log("trn", transcript)
+    
+    }).catch(e=>  new Error(e))
+
+
+    axiosInstance().get("recording_transcription/transcription_view/3/").then((res)=>{
+      setSummary(res?.data?.transcript)
+    
     }).catch(e=>  new Error(e))
   },[])
 
@@ -261,6 +267,7 @@ export default function MeetingOverview() {
                           alt={"speaker"}
                           className="rounded-full object-cover"
                         />
+                        <p>{item.speaker}:</p>
                         <p className="text-primary text-base font-medium">
                           {item?.text}
                         </p>

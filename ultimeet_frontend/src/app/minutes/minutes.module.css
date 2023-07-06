@@ -9,6 +9,7 @@
   background: transparent;
   overflow: hidden;
 }
+
 .borderGradient:before,
 .borderGradient:after {
   content: "";
@@ -55,9 +56,39 @@
   background: #d9d9d9;
 }
 
-.videoFrame{
+.videoFrame {
   object-fit: fill !important;
   height: 100% !important;
   border-radius: 7px;
 }
 
+
+
+.control {
+  width: 100px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: #F3F7FF;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.playButton{
+    position: absolute;
+    display: block;
+    margin: auto;
+    height: 40px;
+    width: 40px;
+    margin-top: 145px;
+    margin-left: 215px;
+    background: #00000057;
+    border-radius: 50%;
+}
+.click{
+
+}
+.click:hover{
+
+}

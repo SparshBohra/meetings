@@ -266,22 +266,7 @@ const Minutes = () => {
           </div>
 
           {/* meetings keypoints  */}
-          <div
-            className={`flex overflow-scroll gap-2 mt-6 ${styles.scrollbarNone}`}
-          >
-            <div className="flex gap-2">
-              {meetingRecoringKeyPoints.map((keypoint, index) => {
-                return (
-                  <button
-                    key={index}
-                    className="border border-[#B2BECC] bg-[#0F305705] px-2 py-1 rounded-md  outline-none text-xs text-grayText w-max whitespace-nowrap"
-                  >
-                    {keypoint}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          
 
           {/* recordings and user name with their talk time   */}
           <MeetingRecoring/>
