@@ -1,0 +1,42 @@
+.thumb{
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background: #2060CF;
+    border: 1px solid #EBEEF2;
+    position: absolute;
+    margin-top: -1.5px;
+}
+
+.thumb2 {
+  height: 25px;
+  width: 25px;
+  background-size: 20px 20px;
+  background-repeat: round;
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -45px;
+  margin-right: 15px;
+  z-index: 12;
+  
+}
+.thumb3 {
+	  rotate: 45deg;
+    height: 17.677669529663685px;
+    width: 17.677669529663685px;
+    background: #dbcaca;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-top: 7px;
+    z-index: 9;
+
+}
+.seekBar{
+  height: 3px;
+  width: 100%;
+  padding: 1%;
+  background: #EBEEF2;
+  padding: 0 !important;
+}

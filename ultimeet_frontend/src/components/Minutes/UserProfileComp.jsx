@@ -1,14 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
-const UserProfileComp = ({ user, index }) => {
+const UserProfileComp = ({ profilePhoto ,name, index }) => {
   return (
     <div key={index} className="relative group">
       <p className="absolute text-xs text-grayText -top-5 right-0 w-max bg-white shadow-md rounded-sm px-2 py-2 opacity-0 group-hover:opacity-100 z-10">
-        {user.name}
+        {name}
       </p>
       <Image
-        src={user.profilePic}
+        src={profilePhoto}
         alt="user"
         width={30}
         height={30}

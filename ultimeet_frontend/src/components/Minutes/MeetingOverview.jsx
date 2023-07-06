@@ -7,13 +7,14 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../../app/minutes/minutes.module.css";
 import { BsChevronDown } from "react-icons/bs";
 import { profilePic } from "@/constants/data";
 import Image from "next/image";
-
+import moment from 'moment';
+import { axiosInstance } from '@/api/Axios'
 const data = [
   {
     label: "Transcript",
@@ -184,7 +185,17 @@ const data = [
 export default function MeetingOverview() {
   const [activeTab, setActiveTab] = useState("transcript");
   const [meetingShow, setMeetingShow] = useState(true);
+  const [transcript, setTranscript] = useState({})
 
+  useEffect(()=>{
+
+    axiosInstance().get("recording_transcription/transcription_view/3/").then((res)=>{
+      setTranscript(res?.data?.transcript)
+     /// console.log("trn", transcript)
+    }).catch(e=>  new Error(e))
+  },[])
+
+  //const { transcript_data } = transcript;
   return (
     <div className="bg-white rounded-lg shadow-md p-8 mt-8">
       <div
@@ -227,8 +238,11 @@ export default function MeetingOverview() {
           </TabsHeader>
           <TabsBody className="border-t border-[#e7e9eb]">
             <TabPanel value={"transcript"}>
-              <div className={`${styles.transcriptContainer}`}>
-                {data[0].desc.map((item, index) => {
+              <div className={`${styles.transcriptContainer}`}>{
+                console.log("NOTE",transcript)
+              }
+                { 
+                transcript.length > 0 ? transcript.map((item, index) => {
                   return (
                     <div
                       key={index}
@@ -237,23 +251,23 @@ export default function MeetingOverview() {
                       }}
                     >
                       <p className="text-[#919BA7] text-base py-2 text-medium">
-                        {item.time} - {item.status}
+                        {moment.utc(item.start_time*1000).format('mm:ss')} - {moment.utc(item.end_time*1000).format('mm:ss')}
                       </p>
                       <div className="flex items-center gap-3 py-2 pb-3">
                         <Image
-                          src={item.profilePic}
+                          src={item.avatar}
                           width={28}
                           height={28}
                           alt={"speaker"}
                           className="rounded-full object-cover"
                         />
                         <p className="text-primary text-base font-medium">
-                          {item.message}
+                          {item?.text}
                         </p>
                       </div>
                     </div>
                   );
-                })}
+                }):<></>}
               </div>
             </TabPanel>
             <TabPanel value={"conversationSummary"}>

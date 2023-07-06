@@ -18,6 +18,7 @@ import ActionItemTable from "@/components/Minutes/ActionItemTable";
 import ColorChangingProgressBar from "@/components/Minutes/ColorChangingProgressbar";
 import { axiosInstance } from '@/api/Axios'
 import moment from 'moment';
+import MeetingRecoring from "@/components/Minutes/MeetingRecording";
 const Minutes = () => {
   const [toggleAccordion, setToggleAccordion] = useState(true);
   const [meetingOverview, setMeetingOverview] = useState({})
@@ -174,8 +175,8 @@ const Minutes = () => {
                           return (
                             <UserProfileComp
                               key={index}
-                              profilePhoto={user[0]?.profile_picture}
-                              name={user[0]?.name}
+                              profilePhoto={user?.profile_picture}
+                              name={user?.name}
                               index={index}
                             />
                           );
@@ -199,8 +200,8 @@ const Minutes = () => {
                           return (
                             <UserProfileComp
                               key={index}
-                              profilePhoto={user[0]?.profile_picture}
-                              name={user[0]?.name}
+                              profilePhoto={user?.profile_picture}
+                              name={user?.name}
                               index={index}
                             />
                           );
@@ -222,11 +223,12 @@ const Minutes = () => {
                     </p>
                     <div className="flex items-center">
                       {action_item_approved_by_list?.slice(0, 4).map((user, index) => {
+                        console.log("APO", user)
                         return (
                           <UserProfileComp
                             key={index}
-                            profilePhoto={user[0]?.profile_picture}
-                            name={user[0]?.name}
+                            profilePhoto={user?.profile_picture}
+                            name={"oi"}
                             index={index}
                           />
                         );
@@ -282,41 +284,7 @@ const Minutes = () => {
           </div>
 
           {/* recordings and user name with their talk time   */}
-          <div className="grid grid-flow-col grid-cols-3 mt-6">
-            <div className="col-span-2"></div>
-            <div className="col-span-1">
-              <div className="bg-white border border-[#EAEBF0] rounded-md shadow-sm">
-                <ul className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center">
-                  <li className="pl-4">Name</li>
-                  <li className="pl-4">Talk Time</li>
-                </ul>
-                <div className={`overflow-scroll h-72 ${styles.scrollNone}`}>
-                  {userWithTheirTalkTime.map((user, index) => {
-                    return (
-                      <ul
-                        key={index}
-                        className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center"
-                      >
-                        <li className="text-primary text-base flex items-center gap-2 pl-4">
-                          <Image
-                            src={user.profilePic}
-                            width={28}
-                            height={28}
-                            className="object-cover rounded-full"
-                            alt={user.name}
-                          />
-                          {user.name}
-                        </li>
-                        <li className="text-grayText text-base pl-6">
-                          {user.talkTime}
-                        </li>
-                      </ul>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+          <MeetingRecoring/>
           {/* audio player  */}
           <div></div>
 
