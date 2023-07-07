@@ -5,9 +5,9 @@ import { profilePic } from "@/constants/data";
 import { TbLink } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditActionItemsPopup from "./EditActionItemsPopup";
-
+import { axiosInstance } from '@/api/Axios'
 const TABLE_HEAD = [
   "Action Item",
   "Files",
@@ -21,8 +21,8 @@ const TABLE_HEAD = [
 
 const TABLE_ROWS = [
   {
-    action_name: "User research feedback analysis",
-    action_id: "#132455",
+    name: "User research feedback analysis",
+    action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
     profilePic: profilePic,
@@ -32,8 +32,8 @@ const TABLE_ROWS = [
     status: "In Progress",
   },
   {
-    action_name: "User research feedback analysis",
-    action_id: "#132455",
+    name: "User research feedback analysis",
+    action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
     profilePic: profilePic,
@@ -43,8 +43,8 @@ const TABLE_ROWS = [
     status: "In Progress",
   },
   {
-    action_name: "User research feedback analysis",
-    action_id: "#132455",
+    name: "User research feedback analysis",
+    action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
     profilePic: profilePic,
@@ -54,8 +54,8 @@ const TABLE_ROWS = [
     status: "In Progress",
   },
   {
-    action_name: "User research feedback analysis",
-    action_id: "#132455",
+    name: "User research feedback analysis",
+    action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
     profilePic: profilePic,
@@ -65,8 +65,8 @@ const TABLE_ROWS = [
     status: "In Progress",
   },
   {
-    action_name: "User research feedback analysis",
-    action_id: "#132455",
+    name: "User research feedback analysis",
+    action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
     profilePic: profilePic,
@@ -79,11 +79,20 @@ const TABLE_ROWS = [
 
 export default function ActionItemTable() {
   const [open, setOpen] = useState(false);
+  const [actionItem, setActionItem] = useState([])
 
   const handleOpen = () => setOpen(!open);
+  useEffect(()=>{
 
+    axiosInstance().get("meeting_action_tasks/get_action_items_by_meeting_id/5/").then((res)=>{
+      setActionItem(res?.data)
+    
+    }).catch(e=>  new Error(e))
+
+    
+  },[])
   return (
-    <div className="bg-white rounded-lg shadow-md p-8 mt-8">
+    <div className="bg-white rounded-lg shadow-md  mt-8">
       <h2 className="text-primary text-lg font-semibold text-inherit pb-3">
         Action Items
       </h2>
@@ -108,11 +117,11 @@ export default function ActionItemTable() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
+            {actionItem.map(
               (
                 {
-                  action_name,
-                  action_id,
+                  name,
+                  action_item_id,
                   file,
                   owner,
                   profilePic,
@@ -136,11 +145,11 @@ export default function ActionItemTable() {
                         className="max-w-[150px] font-inter"
                       >
                         <span className="text-primary text-sm font-medium">
-                          {action_name}
+                          {name}
                         </span>
                         <br />
                         <span className="text-sm text-[#919BA7] mt-1">
-                          {action_id}
+                          {action_item_id}
                         </span>
                       </Typography>
                     </td>

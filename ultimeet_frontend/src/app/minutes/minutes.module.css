@@ -63,7 +63,14 @@
 }
 
 
+.userSelector{
+  cursor: pointer;
+}
 
+.userSelector:hover{
+  cursor: pointer;
+  background-color: #42a7ef;
+}
 .control {
   width: 100px;
   height: 28px;
@@ -82,9 +89,10 @@
     height: 40px;
     width: 40px;
     margin-top: 145px;
-    margin-left: 215px;
+    margin-left: 245px;
     background: #00000057;
     border-radius: 50%;
+    cursor: pointer;
 }
 .click{
 

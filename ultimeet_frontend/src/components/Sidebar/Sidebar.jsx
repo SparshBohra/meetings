@@ -7,13 +7,14 @@ import Link from "next/link";
 import { sidebarLinks } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { BsBarChartLineFill } from "react-icons/bs";
+import moment from 'moment';
 
 const Sidebar = () => {
   const currentRoute = usePathname();
 
   return (
     <div
-      className={`fixed left-0 w-[280px] border-r border-[#EAEBF0] bg-[#1C2534] bottom-0 min-h-screen h-full overflow-scroll ${styles.sidebar}`}
+      className={`fixed left-0 w-[246px] border-r border-[#EAEBF0] bg-[#1C2534] bottom-0 min-h-screen h-full overflow-scroll ${styles.sidebar}`}
     >
       <div className="pt-8 pb-12 px-11">
         <Link href="/">
@@ -99,11 +100,11 @@ const Sidebar = () => {
                       } font-medium text-base`}
                     >
                       {links.name}{" "}
-                      {links.href === "/notifications" && (
+                      {/* {links.href === "/notifications" && (
                         <span className="bg-[#e7e7eb] ml-2 inline-flex text-{#333} text-sm w-5 h-5 items-center justify-center rounded-full">
                           5
                         </span>
-                      )}
+                      )} */}
                     </span>
                   </li>
                 </Link>

@@ -41,9 +41,9 @@ const Minutes = () => {
     meeting_location,
     meeting_action_items_count } = meetingOverview
   return (
-    <section className="ml-[280px] p-12 bg-bgColor  mt-[70px]" style={{ paddingRight: '20px' }}>
+    <section className="ml-[245px]  bg-bgColor  mt-[70px]" style={{padding:'24px'}}>
       <div className="grid grid-flow-col grid-cols-3">
-        <div className="col-span-2 ">
+        <div className="col-span-2" style={{width:'850px'}}>
           <div
             className={`rounded-md p-4 border-l-[6px] border-[#b37d33] border-r-0 ${styles.borderGradient} ${styles.borderGradient2}`}
           >
@@ -283,7 +283,8 @@ const Minutes = () => {
           className="col-span-1"
           style={{
             fontFamily: "Inter",
-            padding: '16px'
+            padding: '16px',
+            marginLeft:'75px'
           }}
         >
           {/* scheduled meetings  */}

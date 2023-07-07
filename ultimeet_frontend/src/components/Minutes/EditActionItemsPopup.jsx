@@ -21,7 +21,11 @@ import {
   statusList,
 } from "@/constants/data";
 
-export default function EditActionItemsPopup({ open, handleOpen }) {
+/*
+{owner, reporter, priority, due_on, status}
+*/
+
+export default function EditActionItemsPopup({ open, handleOpen, owner, reporter, priority, due_on, status }) {
   return (
     <Fragment>
       <Dialog open={open} handler={handleOpen} size="sm">

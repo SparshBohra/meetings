@@ -10,20 +10,15 @@ import {
     userDetails,
     userWithTheirTalkTime,
 } from "@/constants/data";
+
 const MeetingRecoring = () => {
 
     const [meetingRecording, setMeetingRecording] = useState({})
     const [play, setPlay] = useState(false);
     const [playTime, setPlayTime] = useState(0);
-    const [playerTalk, setplayerTalk] = useState([
-        41890,
-        284652,
-        750918,
-        1325192,
-        1513886,
-        1738330,
-        1995618
-        ])
+    const [duration, setDuration] = useState({})
+    const [avatar, setAvatar] = useState(profilePic);
+    const [playerTalk, setplayerTalk] = useState([])
     const vidRef = useRef(null);
     const handlePlayVideo = () => {
       vidRef.current.play();
@@ -34,13 +29,21 @@ const MeetingRecoring = () => {
         setPlay(!play)
     }
     const handleForwardVideo = () => {
-        vidRef.current.currentTime +=200;
+        vidRef.current.currentTime +=20;
     }
     const handleBackwardVideo = () => {
-        vidRef.current.currentTime +=5;
+        vidRef.current.currentTime -=20;
     }
-    const userTalkData = (obj) =>{
-         setplayerTalk(obj)
+    const userTalkData = (obj, avatar) =>{
+        let data =[]
+        obj.map((item)=> {
+            let object ={}
+            object["time"]=item;
+            object["fraction"]=item/(duration*1000).toFixed(2)
+            data.push(object)
+        })
+        setplayerTalk(data)
+        setAvatar(avatar)
     }
 
     const onTimeUpdate = () => {
@@ -48,12 +51,15 @@ const MeetingRecoring = () => {
         let b = vidRef?.current?.duration.toFixed(2) || 1;
         
         let c = (a/b).toFixed(2)
+       
         setPlayTime(c) 
     }
 
     useEffect(() => {
         axiosInstance().get('meeting_summary/meeting/1/users_audio_breakpoints/').then((res) => {
             setMeetingRecording(res.data)
+            let b = vidRef?.current?.duration.toFixed(2) || 1;
+            setDuration(b)
 
         }).catch((e) => new Error(e))
         return ()=> {}
@@ -81,14 +87,14 @@ const MeetingRecoring = () => {
             </div>
             <div className="grid grid-flow-col grid-cols-3 mt-6">
                 <div className="col-span-2 pr-4"   >
-                    <Image
-
+                    { !play ?<Image
+                        onClick={handlePlayVideo}  
                         className={styles.playButton}
                         src={'./playMedia.svg'}
                         width={28}
                         height={28}
 
-                    />
+                    />:<></>}
                     <video
                         ref={vidRef}
                         className={styles.videoFrame}
@@ -110,12 +116,14 @@ const MeetingRecoring = () => {
                             {users_audio_breakpoints?.length > 0 ? users_audio_breakpoints.map((user, index) => {
                                 return (
                                     <ul
+                                        onClick={()=>userTalkData(user?.audio_breakpoints?.start,user?.avatar)}
                                         key={index}
-                                        className="grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center"
+                                        className={`grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center ${styles.userTalkData}`}
                                     >
                                         <li  className="text-primary text-base flex items-center gap-2 pl-4 click">
+                                            
                                             <Image
-                                                src={user.avatar}
+                                                src={user?.avatar}
                                                 width={28}
                                                 height={28}
                                                 className="object-cover rounded-full"
@@ -137,7 +145,7 @@ const MeetingRecoring = () => {
 
 
                 <div className="bg-white  rounded-md shadow-sm pl-2 pr-3" style={{ height: '90px' }}>
-                    <Seekbar data={playerTalk} time={playTime} />
+                    <Seekbar data={playerTalk} time={playTime} avatar={avatar}/>
                     
                     <div class="grid grid-cols-3 gap-4">
                         <div className="..."></div>
@@ -153,7 +161,7 @@ const MeetingRecoring = () => {
                                     {
                                     play ?
                                         <div onClick={handlePauseVideo}><Image
-                                            src="/star.svg"
+                                            src="/circle.svg"
                                             width={26}
                                             height={26}
                                             className="object-cover"

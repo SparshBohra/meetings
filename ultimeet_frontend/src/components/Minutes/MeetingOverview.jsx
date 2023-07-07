@@ -195,8 +195,9 @@ export default function MeetingOverview() {
     }).catch(e=>  new Error(e))
 
 
-    axiosInstance().get("recording_transcription/transcription_view/3/").then((res)=>{
-      setSummary(res?.data?.transcript)
+    axiosInstance().get("meeting_summary/meeting/23/summary_view/").then((res)=>{
+      //setSummary(res?.data?.transcript)
+      console.log(res.data)
     
     }).catch(e=>  new Error(e))
   },[])
@@ -244,9 +245,7 @@ export default function MeetingOverview() {
           </TabsHeader>
           <TabsBody className="border-t border-[#e7e9eb]">
             <TabPanel value={"transcript"}>
-              <div className={`${styles.transcriptContainer}`}>{
-                console.log("NOTE",transcript)
-              }
+              <div className={`${styles.transcriptContainer}`}>
                 { 
                 transcript.length > 0 ? transcript.map((item, index) => {
                   return (
@@ -268,7 +267,7 @@ export default function MeetingOverview() {
                           className="rounded-full object-cover"
                         />
                         <p>{item.speaker}:</p>
-                        <p className="text-primary text-base font-medium">
+                        <p className="text-primary text-base font-medium" style={{fontSize:'14px'}}>
                           {item?.text}
                         </p>
                       </div>
