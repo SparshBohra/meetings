@@ -1,4 +1,4 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState,useRef, useContext } from "react";
 import Seekbar from "../Seekbar/Seekbar";
 import styles from "../../app/minutes/minutes.module.css"
 import { axiosInstance } from '@/api/Axios'
@@ -10,7 +10,7 @@ import {
     userDetails,
     userWithTheirTalkTime,
 } from "@/constants/data";
-
+import { SeekBarContext } from "@/app/context/SeekbarContex";
 const MeetingRecoring = () => {
 
     const [meetingRecording, setMeetingRecording] = useState({})
@@ -19,7 +19,9 @@ const MeetingRecoring = () => {
     const [duration, setDuration] = useState({})
     const [avatar, setAvatar] = useState(profilePic);
     const [playerTalk, setplayerTalk] = useState([])
+    const [userTimer, setUserTimer] = useContext(SeekBarContext);
     const vidRef = useRef(null);
+
     const handlePlayVideo = () => {
       vidRef.current.play();
       setPlay(!play)
@@ -89,7 +91,7 @@ const MeetingRecoring = () => {
                 <div className="col-span-2 pr-4"   >
                     { !play ?<Image
                         onClick={handlePlayVideo}  
-                        className={styles.playButton}
+                        className={`${styles.playButton}`}
                         src={'./playMedia.svg'}
                         width={28}
                         height={28}
@@ -116,14 +118,14 @@ const MeetingRecoring = () => {
                             {users_audio_breakpoints?.length > 0 ? users_audio_breakpoints.map((user, index) => {
                                 return (
                                     <ul
-                                        onClick={()=>userTalkData(user?.audio_breakpoints?.start,user?.avatar)}
+                                        onClick={()=>userTalkData(user?.audio_breakpoints?.start,profilePic)}
                                         key={index}
-                                        className={`grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center ${styles.userTalkData}`}
+                                        className={`${styles.userSelector} grid grid-flow-col grid-cols-2 text-grayText text-sm border-b border-[#EAEBF0] h-16 place-content-center ${styles.userTalkData}`}
                                     >
-                                        <li  className="text-primary text-base flex items-center gap-2 pl-4 click">
+                                        <li style={{fontSize:'13px', color:"#272D37"}} className="text-primary text-base flex items-center gap-2 pl-4">
                                             
                                             <Image
-                                                src={user?.avatar}
+                                                src={profilePic||user?.avatar}
                                                 width={28}
                                                 height={28}
                                                 className="object-cover rounded-full"
@@ -131,7 +133,7 @@ const MeetingRecoring = () => {
                                             />
                                             {user.name}
                                         </li>
-                                        <li className="text-grayText text-base pl-6">
+                                        <li style={{fontSize:'13px', color:"#272D37"}} className="text-grayText text-base pl-6">
                                             {`${user.talk_time}%`}
                                         </li>
                                     </ul>
@@ -145,14 +147,13 @@ const MeetingRecoring = () => {
 
 
                 <div className="bg-white  rounded-md shadow-sm pl-2 pr-3" style={{ height: '90px' }}>
-                    <Seekbar data={playerTalk} time={playTime} avatar={avatar}/>
-                    
+                        <Seekbar data={playerTalk} time={playTime} avatar={avatar}/>
                     <div class="grid grid-cols-3 gap-4">
                         <div className="..."></div>
                         <div className="...">
-                            <div class="grid grid-cols-3 gap-4 p-8" style={{ padding: '20%' }}>
+                            <div class="grid grid-cols-3 gap-4 p-8" >
                                 <div className={styles.control}>
-                                    <div onClick={handleBackwardVideo}><Image
+                                    <div onClick={handleBackwardVideo} className={`${styles.userSelector}`}><Image
                                         src="/backward.svg"
                                         width={26}
                                         height={26}
@@ -160,21 +161,21 @@ const MeetingRecoring = () => {
                                     /></div>
                                     {
                                     play ?
-                                        <div onClick={handlePauseVideo}><Image
+                                        <div onClick={handlePauseVideo} className={`${styles.userSelector}`}><Image
                                             src="/circle.svg"
                                             width={26}
                                             height={26}
                                             className="object-cover"
                                         /></div>:
 
-                                        <div onClick={handlePlayVideo}><Image
+                                        <div onClick={handlePlayVideo} className={`${styles.userSelector}`}><Image
                                             src="/play.svg"
                                             width={26}
                                             height={26}
                                             className="object-cover"
                                         /></div> 
                                     }                                   
-                                    <div onClick={handleForwardVideo}><Image
+                                    <div onClick={handleForwardVideo} className={`${styles.userSelector}`}><Image
                                         src="/forward.svg"
                                         width={26}
                                         height={26}

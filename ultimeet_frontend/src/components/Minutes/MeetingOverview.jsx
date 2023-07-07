@@ -196,7 +196,7 @@ export default function MeetingOverview() {
 
 
     axiosInstance().get("meeting_summary/meeting/23/summary_view/").then((res)=>{
-      //setSummary(res?.data?.transcript)
+      setSummary(res?.data)
       console.log(res.data)
     
     }).catch(e=>  new Error(e))
@@ -221,9 +221,8 @@ export default function MeetingOverview() {
       </div>
       {meetingShow && (
         <Tabs value={activeTab} className="mt-5">
-          <TabsHeader className="bg-white shadow-none flex gap-8">
+          <TabsHeader className="bg-white shadow-none flex gap-8" style={{height:'40px'}}>
             {data.map(({ label, value }) => {
-              console.log(activeTab, value);
               return (
                 <Tab
                   onClick={() => setActiveTab(value)}
@@ -255,19 +254,19 @@ export default function MeetingOverview() {
                         fontFamily: "Inter",
                       }}
                     >
-                      <p className="text-[#919BA7] text-base py-2 text-medium">
-                        {moment.utc(item.start_time*1000).format('mm:ss')} - {moment.utc(item.end_time*1000).format('mm:ss')}
+                      <p className="text-[#919BA7] text-base py-2 text-medium" style={{fontSize:'13px'}}>
+                        {moment.utc(item.start_time*1000).format('mm:ss')} - {moment.utc(item.end_time*1000).format('mm:ss')} : {item.speaker}
                       </p>
-                      <div className="flex items-center gap-3 py-2 pb-3">
+                      <div className="flex  gap-3 py-2 pb-3">
                         <Image
                           src={item.avatar}
                           width={28}
                           height={28}
+                          style={{width:"28px", height:'28px'}}
                           alt={"speaker"}
-                          className="rounded-full object-cover"
+                          className="rounded-full"
                         />
-                        <p>{item.speaker}:</p>
-                        <p className="text-primary text-base font-medium" style={{fontSize:'14px'}}>
+                        <p className={`text-primary text-base font-medium ${styles.summaryText}`}>
                           {item?.text}
                         </p>
                       </div>
@@ -277,8 +276,11 @@ export default function MeetingOverview() {
               </div>
             </TabPanel>
             <TabPanel value={"conversationSummary"}>
-              <div className={`${styles.transcriptContainer}`}>
-                <div
+              <div className={`${styles.summaryText}`}>
+                {
+                 summary?.summary
+                }
+                {/* <div
                   style={{
                     fontFamily: "Inter",
                   }}
@@ -349,7 +351,7 @@ export default function MeetingOverview() {
                       })}
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             </TabPanel>
           </TabsBody>

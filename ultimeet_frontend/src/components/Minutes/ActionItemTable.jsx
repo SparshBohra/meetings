@@ -1,7 +1,7 @@
 "use client";
 import { Card, Typography } from "@material-tailwind/react";
 import styles from "../../app/minutes/minutes.module.css";
-import { profilePic } from "@/constants/data";
+import { profilePic as profp } from "@/constants/data";
 import { TbLink } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import Image from "next/image";
@@ -25,7 +25,7 @@ const TABLE_ROWS = [
     action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
-    profilePic: profilePic,
+    profilePic: profp,
     reporter: "Jessi",
     priority: "Urgent",
     due_on: "24 June 23",
@@ -36,7 +36,7 @@ const TABLE_ROWS = [
     action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
-    profilePic: profilePic,
+    profilePic: profp,
     reporter: "Jessi",
     priority: "Medium",
     due_on: "24 June 23",
@@ -47,7 +47,7 @@ const TABLE_ROWS = [
     action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
-    profilePic: profilePic,
+    profilePic: profp,
     reporter: "Jessi",
     priority: "Low",
     due_on: "24 June 23",
@@ -58,7 +58,7 @@ const TABLE_ROWS = [
     action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
-    profilePic: profilePic,
+    profilePic: profp,
     reporter: "Jessi",
     priority: "Low",
     due_on: "24 June 23",
@@ -69,7 +69,7 @@ const TABLE_ROWS = [
     action_item_id: "#132455",
     file: "Figjam",
     owner: "Sushan",
-    profilePic: profilePic,
+    profilePic: profp,
     reporter: "Jessi",
     priority: "Urgent",
     due_on: "24 June 23",
@@ -92,12 +92,12 @@ export default function ActionItemTable() {
     
   },[])
   return (
-    <div className="bg-white rounded-lg shadow-md  mt-8">
+    <div className="bg-white rounded-lg shadow-md  mt-8" style={{padding:'12px'}}>
       <h2 className="text-primary text-lg font-semibold text-inherit pb-3">
         Action Items
       </h2>
       <Card className={`overflow-scroll w-full ${styles.scrollbarNone}`}>
-        <table className="w-full min-w-max table-auto text-left">
+        <table className="table-auto">
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
@@ -108,7 +108,7 @@ export default function ActionItemTable() {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="text-base font-inter leading-none opacity-70"
+                    className={`text-base font-inter leading-none opacity-70 ${styles.actionItemHeader}`}
                   >
                     {head}
                   </Typography>
@@ -144,11 +144,11 @@ export default function ActionItemTable() {
                         color="blue-gray"
                         className="max-w-[150px] font-inter"
                       >
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {name}
                         </span>
                         <br />
-                        <span className="text-sm text-[#919BA7] mt-1">
+                        <span className={`text-sm text-[#919BA7] mt-1 ${styles.actionItemText}`}>
                           {action_item_id}
                         </span>
                       </Typography>
@@ -156,7 +156,7 @@ export default function ActionItemTable() {
                     <td className={classes}>
                       <Typography className="font-inter flex items-center gap-2">
                         <TbLink fontSize={16} className="text-primary" />
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {file}
                         </span>
                       </Typography>
@@ -164,13 +164,13 @@ export default function ActionItemTable() {
                     <td className={classes}>
                       <Typography className=" font-inter flex items-center gap-2">
                         <Image
-                          src={profilePic}
+                          src={profp}
                           alt={owner}
                           width={24}
                           height={24}
                           className="rounded-full"
                         />
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {owner}
                         </span>
                       </Typography>
@@ -178,13 +178,13 @@ export default function ActionItemTable() {
                     <td className={classes}>
                       <Typography className="font-inter flex items-center gap-2">
                         <Image
-                          src={profilePic}
+                          src={profp}
                           alt={reporter}
                           width={24}
                           height={24}
                           className="rounded-full"
                         />
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {reporter}
                         </span>
                       </Typography>
@@ -208,14 +208,14 @@ export default function ActionItemTable() {
                     </td>
                     <td className={classes}>
                       <Typography className=" font-inter flex items-center gap-2">
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {due_on}
                         </span>
                       </Typography>
                     </td>
                     <td className={classes}>
                       <Typography className=" font-inter flex items-center gap-2">
-                        <span className="text-primary text-sm font-medium">
+                        <span className={`text-primary text-sm font-medium ${styles.actionItemText}`}>
                           {status}
                         </span>
                       </Typography>

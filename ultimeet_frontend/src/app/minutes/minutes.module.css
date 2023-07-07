@@ -69,7 +69,7 @@
 
 .userSelector:hover{
   cursor: pointer;
-  background-color: #42a7ef;
+  background-color: #42a7ef1b;
 }
 .control {
   width: 100px;
@@ -79,6 +79,7 @@
   background: #F3F7FF;
   display: flex;
   justify-content: space-around;
+  margin-left: 40px;
 }
 
 
@@ -93,10 +94,54 @@
     background: #00000057;
     border-radius: 50%;
     cursor: pointer;
+    z-index: 25;
 }
 .click{
 
 }
 .click:hover{
 
+}
+
+.summaryText{
+  color: #272D37;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px;
+letter-spacing: -0.1px;
+}
+
+
+.meetingOverview{
+color: var(--gray-50, #5F6D7E);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.1px;
+}
+
+.actionItemHeader{
+  color: #5F6D7E;
+/* Text XS/Medium */
+font-family: Inter;
+font-size: 13px;
+font-style: normal;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: -0.1px;
+}
+
+.actionItemText{
+  color: var(--gray-700, #272D37);
+/* Text S/Medium */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: -0.1px;
 }
